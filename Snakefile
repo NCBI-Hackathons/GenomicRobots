@@ -43,12 +43,26 @@ rule strip_rs:
 rule psst:
     input:
         rsids='stripped_rs.list',
+        samples=SAMPLES_FILE
+    output:
+        '{fastq}/results.tsv'
+    params:
+        dirname='{fastq}'
+    shell:
+        'grep {wildcards.fastq} {input.samples} > /tmp/{wildcards.fastq}.srr; '
+        'PATH=/home/ubuntu/bballew/PSST:/home/ubunut/bballew/ncbi-magicblast-1.2.0/bin/:$PATH '
+        'psst.sh -s /tmp/{wildcards.fastq}.srr -n {input.rsids} -d {params.fastq} -e none@example.com -t 1 -p 1'
+
+rule post_psst:
+    input:
+        rsids='stripped_rs.list',
+        psst='{fastq}/results.tsv'
     output: '{fastq}/out.csv'
     shell:
         'python psst_to_matrix.py '
         '{input.rsids} '
         '{SAMPLES_FILE} '
-        '{output} '
+        '{output.psst} '
 
 
 rule answer:
