@@ -9,7 +9,7 @@ To build a a web-based tool that simplifies the process of retrieving patients g
 
 ## Target Audience: 
 
-Any institution in the BoT network can implement to share genetic data.The BoT questions of the form "Do you have information about the following mutation?" and responds with one of "Yes" or "No", among potentially more information
+Any institution in the BoT network can implement to share genetic data. The BoT questions of the form "Do you have information about the following mutation?" and responds with one of "Yes" or "No", among potentially more but no personal information. 
 
 
 # Significance: 
