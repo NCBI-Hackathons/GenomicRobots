@@ -52,7 +52,7 @@ if __name__ == "__main__":
     else:
         fin = sys.stdin
 
-    for i in f:
+    for i in fin:
         if i.startswith('#'):
             continue
         i = i.strip()
