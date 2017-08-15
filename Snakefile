@@ -1,18 +1,24 @@
 import pandas as pd
 
-# TODO: this will eventually be configured on the server; for now use the
-# example SRRs
+# INPUTS ----------------------------------------------------------------------
+
+# Maps sample ID to FASTQ on disk
 SAMPLES_FILE = 'testsamples.in'
+
+# rsIDs. Contains "rs"; these will be stripped out before sending to PSST.
 SNPS_FILE = 'testsnps.in'
+# ----------------------------------------------------------------------------
 
-fastqs = [i.strip() for i in open(SAMPLES_FILE).readlines()]
-
+SAMPLES = pd.read_table(SAMPLES_FILE, index_col=0, names=['sampleid', 'path'])['path'].to_dict()
+sample_ids = SAMPLES.keys()
+fastqs = SAMPLES.values()
 
 # TODO: what thresh makes sense?
 MIN_MAF = 0.01
 
 targets = [
-    expand('{fastq}/answer.txt', fastq=fastqs),
+    fastqs,
+    expand('{sample_id}/answer.txt', sample_id=sample_ids),
     'answer.txt'
 ]
 
@@ -43,20 +49,20 @@ rule strip_rs:
 rule psst:
     input:
         rsids='stripped_rs.list',
-        samples=SAMPLES_FILE
+        fastq=lambda wildcards: SAMPLES[wildcards.sampleid]
     output:
-        '{fastq}/results.tsv'
+        '{sampleid}/results.tsv'
     shell:
-        'grep {wildcards.fastq} {input.samples} > /tmp/{wildcards.fastq}.srr; '
-        'mkdir -p {wildcards.fastq} && cd {wildcards.fastq} &&'
+        'grep {wildcards.sampleid} {input.samples} > /tmp/{wildcards.sampleid}.srr; '
+        'mkdir -p {wildcards.sampleid} && cd {wildcards.sampleid} &&'
         'PATH=/home/ubuntu/bballew/PSST:/home/ubuntu/bballew/ncbi-magicblast-1.2.0/bin/:$PATH '
-        'psst.sh -s /tmp/{wildcards.fastq}.srr -n ../{input.rsids} -d . -e none@example.com -t 1 -p 1'
+        'psst.sh -s /tmp/{wildcards.sampleid}.srr -n ../{input.rsids} -d . -e none@example.com -t 1 -p 1'
 
 rule post_psst:
     input:
         rsids='stripped_rs.list',
-        psst='{fastq}/results.tsv'
-    output: '{fastq}/out.csv'
+        psst='{sampleid}/results.tsv'
+    output: '{sampleid}/out.csv'
     shell:
         'python psst_to_matrix.py '
         '{input.rsids} '
@@ -65,15 +71,15 @@ rule post_psst:
 
 
 rule answer:
-    input: '{fastq}/out.csv',
-    output: '{fastq}/answer.txt'
+    input: '{sampleid}/out.csv',
+    output: '{sampleid}/answer.txt'
     run:
         # TODO: actually write this
         shell('touch {output}')
 
 
 rule aggregate:
-    input: expand('{fastq}/answer.txt', fastq=fastqs)
+    input: expand('{sampleid}/answer.txt', sampleid=sampleids)
     output: 'answer.txt'
     run:
 
