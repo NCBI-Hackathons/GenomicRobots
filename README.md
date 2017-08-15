@@ -45,13 +45,16 @@ psst.sh -s <samples_list> -n <rsids_list> -d <.> -e <email> -t <n> -p <n>
 see https://github.com/NCBI-Hackathons/PSST for more details
 
 ### Input files:
-- samples_list (e.g. testsamples.in) is a list of SRA accessions (one per line) or fastq???  (still testing)
+- samples_list (e.g. testsamples.in) is a list of SRA accessions (one per line) 
+  OR
+- path/to/fastq
+  - can only accept a single path and filename, not a list
 - rsids_list (e.g. testsnps.in) is a list of rsIDs (one per line, with the "rs" removed)
 
 ### Output file:
 - (e.g. test.out (renamed for testing; typically named results.tsv))
 - three tab-delimited columns with a header row
-  - first column is SRA accession number
+  - first column is SRA accession number (or filename if fastq used)
   - second column is list of rsIDs (no "rs") detected as hets
   - third column is list of rsIDs (no "rs") detected as hom alt
 
@@ -74,7 +77,9 @@ optional arguments:
   -h, --help       show this help message and exit
   ```
 
-- example output: feature_matrix.csv
+- output files: 
+  - feature_matrix.csv
+  - maf_table.csv
 
 ## Anticipated results: 
 

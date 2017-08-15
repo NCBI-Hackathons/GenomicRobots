@@ -61,7 +61,8 @@ if __name__ == "__main__":
     valid = []
     for i in ids:
         try:
-            if res[i] < args.thresh:
+            maf = res[i]
+            if maf and maf < args.thresh:
                 continue
         except KeyError:
             continue
