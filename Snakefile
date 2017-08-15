@@ -53,7 +53,7 @@ rule psst:
     output:
         '{sampleid}/results.tsv'
     shell:
-        'grep {wildcards.sampleid} {input.samples} > /tmp/{wildcards.sampleid}.srr; '
+        'grep {wildcards.sampleid} {input.fastq} > /tmp/{wildcards.sampleid}.srr; '
         'mkdir -p {wildcards.sampleid} && cd {wildcards.sampleid} &&'
         'PATH=/home/ubuntu/bballew/PSST:/home/ubuntu/bballew/ncbi-magicblast-1.2.0/bin/:$PATH '
         'psst.sh -s /tmp/{wildcards.sampleid}.srr -n ../{input.rsids} -d . -e none@example.com -t 1 -p 1'
