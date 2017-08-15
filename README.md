@@ -22,7 +22,7 @@ Need for a simplistic workflow for retrieving genomic information.
 
 # Question: 
 
-Can we simplify the process of retrival of a patients  genotypic information  
+Can we simplify the process of retrival of a patients  genotypic information?  
 
 # Method:
 
