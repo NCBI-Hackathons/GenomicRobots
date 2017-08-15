@@ -3,6 +3,8 @@ import pandas as pd
 # TODO: this will eventually be configured on the server; for now use the
 # example SRRs
 SAMPLES_FILE = 'testsamples.in'
+SNPS_FILE = 'testsnps.in'
+
 fastqs = [i.strip() for i in open(SAMPLES_FILE).readlines()]
 
 
@@ -21,7 +23,7 @@ rule all:
 
 rule pre_filter_ids:
     input:
-        rsids='rsid_list'
+        rsids=SNPS_FILE
     output: 'filtered_rsids.txt'
     shell:
         'filter_ids.py '
