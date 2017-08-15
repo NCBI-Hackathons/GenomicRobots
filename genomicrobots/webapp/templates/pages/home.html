@@ -4,7 +4,7 @@
 
 
 <div class="page-header">
-<h3> Run Genomic robots </h3>
+<h3> Genomic Robots </h3>
 </div>
 
 
@@ -19,13 +19,32 @@
         <div class="tab-pane" id="example1">
             <div class="row">
                 <div class="col-sm-12">
-
                         <div class="home_block">
-                          <form id="#example1" method="POST" action="{{ url_for('.identify_page') }}">
+                          <form id="form1" method="POST" action="{{ url_for('.api_example') }}">
+
+                          <input type="hidden" name="robot" value="example" id="robot1">
 
                             <div class="form-group">
-                              <label for="mutations">Input RS IDS:</label>
-                                <textarea class="form-control input-xxlarge" rows="4" id="rsids" name="rsids"></textarea>
+                              <label for="input_data1">Input RS IDS:</label>
+                                <textarea class="form-control input-xxlarge" rows="4" id="input_data1" name="input_data1">
+rs10419397
+rs10424198
+rs1042522
+rs1045642
+rs10505477
+rs1060915
+rs10804682
+rs10808556
+rs10895068
+rs11169571
+rs11571707
+rs11920625
+rs1219648
+rs12946397
+rs13091637
+rs13120400
+rs13281615
+                                </textarea>
                             </div>
 
                             <br>
@@ -39,9 +58,8 @@
                       <div class="row">
                           <div class="col-xs-12">
                             <!-- <br> -->
-                            <a name="results"></a>
-                            <div id="results" style="display: none;">
-                                <table id="results_table" class="table-no-bordered"
+                            <div id="results1" style="display: none;">
+                                <table id="results1_table" class="table-no-bordered"
 
                                        data-toggle="table"
                                        data-pagination="true"
@@ -53,7 +71,7 @@
                                        <!-- data-search="true" -->
                                     <thead>
                                     <tr>
-                                        <th data-field="rs" data-width="230px" data-formatter="btable_view_button_formatter">RS ID</th>
+                                        <th data-field="rs" >RS ID</th>
                                         <th data-field="status" data-sortable="true">STATUS</th>
                                     </tr>
                                     </thead>
@@ -94,19 +112,25 @@
 {% block script %}
 <script>
 
+var url_api_example1 = "{{ url_for('.api_example') }}";
+
 $(function() {
     $.ajaxSetup({ cache: false });
 
     $("#form1").submit(function(event){
         event.preventDefault();
-        $("#result1").hide();
 
-        $.getJSON(
+        $("#results1").hide();
+
+        $.post(
           url_api_example1, {
+              robot: $("#robot1").val(),
               input_data: $("#input_data1").val(),
           }, function(json) {
-                $("#result1").show();
-          });
+                $("#results1_table").bootstrapTable('load', json.response);
+
+                $("#results1").show();
+          }, "json");
     });
 
     // by default show the first tab

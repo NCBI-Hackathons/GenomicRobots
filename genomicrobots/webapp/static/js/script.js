@@ -5,8 +5,8 @@ $(function() {
               'placement': 'top'
       });
 
-      $.ajaxSetup({
-            headers: { 'X-CSRFToken': _csrf_token}
-      });
+      // $.ajaxSetup({
+      //       headers: { 'X-CSRFToken': _csrf_token}
+      // });
 
 });

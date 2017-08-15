@@ -11,11 +11,15 @@ from werkzeug.exceptions import NotFound
 
 from ...analysis.example_analysis import *
 
-web = Blueprint('mutagene', __name__)
+web = Blueprint('genomicrobots', __name__)
 
 #############################################################
 # Routes for regular pages
 #############################################################
+
+robots = {
+    'example': example_analysis,
+}
 
 
 @web.route('/')
@@ -27,9 +31,15 @@ def home_page():
 def api_example():
     """ Runs genomic scan. Returns JSON PII-safe respones """
 
-    input_data = request.form.get("input_data")
+    robot_name = request.form.get("robot")
+    print(robot_name)
+    robot_function = robots.get(robot_name)
+    if robot_function is None:
+        abort(404)
 
-    response = example_analysis(input_data)
+    input_data = request.form.get("input_data")
+    rslist = input_data.strip().split("\n")
+    response = robot_function(rslist)
 
     return jsonify({
         'response': response

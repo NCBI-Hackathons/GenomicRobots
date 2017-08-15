@@ -1,5 +1,5 @@
 from flask import Flask, request
-from flask_seasurf import SeaSurf
+# from flask_seasurf import SeaSurf
 from .controllers import pages
 
 
@@ -9,8 +9,8 @@ def create_app(conf):
     app = Flask(__name__)
     app.config.from_object(conf)
     app.register_blueprint(pages.web)
-    csrf = SeaSurf()
-    csrf.init_app(app)
+    # csrf = SeaSurf()
+    # csrf.init_app(app)
 
     @app.after_request
     def log_response(resp):
