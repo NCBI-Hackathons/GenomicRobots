@@ -26,7 +26,7 @@ rule pre_filter_ids:
         rsids=SNPS_FILE
     output: 'filtered_rsids.txt'
     shell:
-        'filter_ids.py '
+        'python filter_ids.py '
         '--ids {input} '
         '--thresh {MIN_MAF} '
         '> {output}'
