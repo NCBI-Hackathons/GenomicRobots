@@ -2,3 +2,4 @@ snakemake
 pandas
 requests
 biopython
+blast
