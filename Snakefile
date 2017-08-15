@@ -45,7 +45,7 @@ rule psst:
         rsids='stripped_rs.list',
     output: '{fastq}/out.csv'
     shell:
-        'psst_to_matrix.py '
+        'python psst_to_matrix.py '
         '{input.rsids} '
         '{SAMPLES_FILE} '
         '{output} '
