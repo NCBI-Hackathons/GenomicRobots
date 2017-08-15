@@ -10,9 +10,13 @@ fastqs = [i.strip() for i in open(SAMPLES_FILE).readlines()]
 MIN_MAF = 0.01
 
 targets = [
-    expand('{fastq}_answer.txt', fastq=fastqs),
+    expand('{fastq}/answer.txt', fastq=fastqs),
     'answer.txt'
 ]
+
+
+rule all:
+    input: targets
 
 
 rule pre_filter_ids:
@@ -33,6 +37,7 @@ rule strip_rs:
     shell:
         'sed "s/^rs//g" {input} > {output}'
 
+
 rule psst:
     input:
         rsids='stripped_rs.list',
@@ -43,12 +48,24 @@ rule psst:
         '{SAMPLES_FILE} '
         '{output} '
 
+
+rule answer:
+    input: '{fastq}/out.csv',
+    output: '{fastq}/answer.txt'
+    run:
+        # TODO: actually write this
+        shell('touch {output}')
+
+
 rule aggregate:
-    input: expand('{fastq}/out.csv', fastq=fastqs)
+    input: expand('{fastq}/answer.txt', fastq=fastqs)
     output: 'answer.txt'
     run:
+
         # TODO: this is where we have to make various decisions about what/how
         # to report
         for i in input:
             df = pd.read_table(i)
+        shell('touch {output}')
 
+# vim: ft=python
