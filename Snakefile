@@ -48,8 +48,8 @@ rule psst:
         '{fastq}/results.tsv'
     shell:
         'grep {wildcards.fastq} {input.samples} > /tmp/{wildcards.fastq}.srr; '
-        'PATH=/home/ubuntu/bballew/PSST:/home/ubunut/bballew/ncbi-magicblast-1.2.0/bin/:$PATH '
         'mkdir -p {wildcards.fastq} && cd {wildcards.fastq} &&'
+        'PATH=/home/ubuntu/bballew/PSST:/home/ubunut/bballew/ncbi-magicblast-1.2.0/bin/:$PATH '
         'psst.sh -s /tmp/{wildcards.fastq}.srr -n {input.rsids} -d . -e none@example.com -t 1 -p 1'
 
 rule post_psst:
