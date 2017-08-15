@@ -28,7 +28,6 @@ def maf_by_rsid(ids):
         "Accept" : "application/json"
     }
 
-    ids = [i.strip() for i in open('rsids.txt')][:4]
     r = requests.post(server+ext, headers=headers, data=json.dumps({'ids': ids}))
     if not r.ok:
       r.raise_for_status()
