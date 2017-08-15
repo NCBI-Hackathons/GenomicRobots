@@ -20,7 +20,9 @@ Need to protect privacy
 
 Need for a simplistic workflow for retrieving genomic information. 
 
-Question: Can we simplify the process of retrival of a patients  genotypic information  
+# Question: 
+
+Can we simplify the process of retrival of a patients  genotypic information  
 
 # Method:
 
