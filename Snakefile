@@ -79,7 +79,7 @@ rule answer:
 
 
 rule aggregate:
-    input: expand('{sampleid}/answer.txt', sampleid=sampleids)
+    input: expand('{sampleid}/answer.txt', sampleid=sample_ids)
     output: 'answer.txt'
     run:
 
