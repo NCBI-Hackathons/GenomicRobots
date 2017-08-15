@@ -33,7 +33,7 @@ def get_dict(myKey, myValue, dosage, featureList, myDict):
     for x in featureList:
         if x in myList:
             tempList.append(dosage)
-        else:             
+        else:
             tempList.append(0)
     myDict[myKey] = tempList
     return myDict
@@ -67,7 +67,7 @@ check_file(results.psst_out)
 # read in all queried snps
 with open(results.psst_snps_in) as f:
     snps = f.readlines()
-    snps = [x.strip('\n') for x in snps] 
+    snps = [x.strip('\n') for x in snps]
 
 # read in het/hom snps found
 het_dict = {}
@@ -82,7 +82,7 @@ with open(results.psst_out) as f:
 # read in all queried samples
 with open(results.psst_samples_in) as f:
     samples = f.readlines()  # works for sra accession numbers; what about fastq?
-    samples = [x.strip('\n') for x in samples] 
+    samples = [x.strip('\n') for x in samples]
 print(samples)
 
 # check dicts for presence of all samples queried
