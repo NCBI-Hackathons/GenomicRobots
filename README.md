@@ -1,7 +1,7 @@
 # GenomicRobots
 ## Introduction:
 
-Although issues of re-identication of are a major concern in genomic data, most instituitions including the NIH have now developed databases through which de-identified information can be shared. However, current efforts to retrieve/share genotypic data are hampered due to the cumbersome analytic processes that may be involved.     
+Although issues of re-identication are a major concern for use of genomic data, most instituitions including the NIH have now developed databases through which de-identified information can be shared. However, current efforts towards retrieval/sharing of genotypic data are hampered due to the cumbersome analytic processes that may be involved in analysing NGS datasets- especially for the non-specialist bioinformatics analysts.     
 
 ## Goals: 
 
