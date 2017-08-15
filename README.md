@@ -36,4 +36,6 @@ optional arguments:
   -h, --help       show this help message and exit
   ```
 
-- example output: feature_matrix.csv
+- output files: 
+  - feature_matrix.csv
+  - maf_table.csv
