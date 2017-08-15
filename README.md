@@ -26,7 +26,7 @@ Question: Can we simplify the process of retrival of a patients  genotypic infor
 
 Fastq file -> implement the psst pipeline -> yes or no output 
 
-The PSST pipeline is as follows:
+The PSST (NCBI Hackathon; La 2017) pipeline is as follows:
 
     Extracts flanking sequences for the SNP accessions and creates a FASTA file containing these flanking sequences.
 
