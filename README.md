@@ -22,6 +22,7 @@ see https://github.com/NCBI-Hackathons/PSST for more details
 
 ## To run psst_to_matrix.py:
 
+```
 usage: psst_to_matrix.py [-h] psst_snps_in psst_samples_in psst_out
 
 Takes PSST output and converts to gene dosage sample x snp matrix.
@@ -33,3 +34,6 @@ positional arguments:
 
 optional arguments:
   -h, --help       show this help message and exit
+  ```
+
+- example output: feature_matrix.csv
