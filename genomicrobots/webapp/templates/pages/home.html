@@ -1,0 +1,141 @@
+{% extends 'layouts/main.html' %}
+{% block title %} Run Robots {% endblock %}
+{% block content %}
+
+
+<div class="page-header">
+<h3> Genomic Robots </h3>
+</div>
+
+
+<div class="container-fluid">
+<div id="content">
+    <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+        <li><a href="#example1" data-toggle="tab" data-tab-history="true">Example 1</a></li>
+        <li><a href="#example2" data-toggle="tab" data-tab-history="true">Example 2</a></li>
+        <li><a href="#example3" data-toggle="tab" data-tab-history="true">Example 3</a></li>
+    </ul>
+    <div id="my-tab-content" class="tab-content">
+        <div class="tab-pane" id="example1">
+            <div class="row">
+                <div class="col-sm-12">
+                        <div class="home_block">
+                          <form id="form1" method="POST" action="{{ url_for('.api_example') }}">
+
+                          <input type="hidden" name="robot" value="example" id="robot1">
+
+                            <div class="form-group">
+                              <label for="input_data1">Input RS IDS:</label>
+                                <textarea class="form-control input-xxlarge" rows="4" id="input_data1" name="input_data1">
+rs10419397
+rs10424198
+rs1042522
+rs1045642
+rs10505477
+rs1060915
+rs10804682
+rs10808556
+rs10895068
+rs11169571
+rs11571707
+rs11920625
+rs1219648
+rs12946397
+rs13091637
+rs13120400
+rs13281615
+                                </textarea>
+                            </div>
+
+                            <br>
+                            <button id="example1_button" type="submit" class="btn btn-warning">Run the bot!</button>
+                            <br>
+                          </form>
+
+                      </div>
+
+                      <br/>
+                      <div class="row">
+                          <div class="col-xs-12">
+                            <!-- <br> -->
+                            <div id="results1" style="display: none;">
+                                <table id="results1_table" class="table-no-bordered"
+
+                                       data-toggle="table"
+                                       data-pagination="true"
+                                       data-height="100%"
+                                       data-sort-name="score"
+                                       data-sort-order="desc"
+                                       >
+                                       <!-- class="table-condensed " -->
+                                       <!-- data-search="true" -->
+                                    <thead>
+                                    <tr>
+                                        <th data-field="rs" >RS ID</th>
+                                        <th data-field="status" data-sortable="true">STATUS</th>
+                                    </tr>
+                                    </thead>
+                                </table>                
+    
+                            </div>
+                          </div>
+                      </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane" id="example2">
+            <div class="row">
+                <div class="col-sm-12">
+                Example form 2
+                </div>
+            </div>
+        </div>
+
+
+        <div class="tab-pane" id="example3">
+            <div class="row">
+                <div class="col-sm-12">
+                Example form 3
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+{% endblock %}
+
+
+{% block script %}
+<script>
+
+var url_api_example1 = "{{ url_for('.api_example') }}";
+
+$(function() {
+    $.ajaxSetup({ cache: false });
+
+    $("#form1").submit(function(event){
+        event.preventDefault();
+
+        $("#results1").hide();
+
+        $.post(
+          url_api_example1, {
+              robot: $("#robot1").val(),
+              input_data: $("#input_data1").val(),
+          }, function(json) {
+                $("#results1_table").bootstrapTable('load', json.response);
+
+                $("#results1").show();
+          }, "json");
+    });
+
+    // by default show the first tab
+    $('#tabs a[href="#example1"]').tab('show');
+});
+
+</script>
+{% endblock %}
