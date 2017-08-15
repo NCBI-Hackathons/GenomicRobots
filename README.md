@@ -41,4 +41,4 @@ The PSST pipeline is as follows:
 A simplistic web-based tool that simplifies extraction of genotypic information.
 
 # Conclusion: 
-Our findings showed most institutions have databases through which de-identified can be shared but the issue of a simplistic workflow to retrieve and share genotypic information remains a major challenge. This web-based tool simplifies the process of retriving genotypic information.
+Our findings showed most institutions have databases through which de-identified genomic data can be shared but the issue of a simplistic workflow to retrieve and share genotypic information remains a major challenge. This web-based tool simplifies the process of retriving genotypic information.
