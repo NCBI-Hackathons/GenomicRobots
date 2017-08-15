@@ -42,10 +42,6 @@ def get_dict(myKey, myValue, dosage, featureList, myDict):
 ################ End functions ################
 ###############################################
 
-# psst_snps_in = "testsnps.in"  # to get all queried snps
-# psst_samples_in = "testsamples.in"  # to get all queried SRA accessions
-# psst_out = "test.out"  #"breast-ovarian_cancer.tsv"  # get PSST output filename
-# # how to we want to pass this data?  reference a config file?  pass as command line options?
 
 # handle command line arguments
 parser = argparse.ArgumentParser(description = 'Takes PSST output and converts to gene dosage sample x snp matrix.')
@@ -55,9 +51,9 @@ parser.add_argument('psst_out', help='PSST output file')
 results = parser.parse_args()
 
 # for debugging
-print('psst_snps_in    = ', results.psst_snps_in)
-print('psst_samples_in = ', results.psst_samples_in)
-print('psst_out        = ', results.psst_out)
+# print('psst_snps_in    = ', results.psst_snps_in)
+# print('psst_samples_in = ', results.psst_samples_in)
+# print('psst_out        = ', results.psst_out)
 
 # check for presence of files
 check_file(results.psst_snps_in)
@@ -68,6 +64,10 @@ check_file(results.psst_out)
 with open(results.psst_snps_in) as f:
     snps = f.readlines()
     snps = [x.strip('\n') for x in snps] 
+    snps = filter(None, snps)
+
+# TEST
+# print(snps)
 
 # read in het/hom snps found
 het_dict = {}
@@ -83,7 +83,6 @@ with open(results.psst_out) as f:
 with open(results.psst_samples_in) as f:
     samples = f.readlines()  # works for sra accession numbers; what about fastq?
     samples = [x.strip('\n') for x in samples] 
-print(samples)
 
 # check dicts for presence of all samples queried
 for x in samples:
@@ -100,3 +99,10 @@ df.columns = snps
 print(df)
 df.to_csv("feature_matrix.csv")
 
+# calculate MAF within the queried population
+df_maf = df.T
+df_maf['sum'] = df_maf.sum(axis=1)
+df_maf['maf'] = df_maf['sum'] / len(samples)
+df_maf = df_maf.filter(['maf'])
+print(df_maf)
+df_maf.to_csv("maf_table.csv")
