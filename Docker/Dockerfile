@@ -1,5 +1,8 @@
-FROM ubuntu:16.04
-FROM johanneskoester/snakemake
+# base image for ubuntu
+FROM ubuntu:16.04 
+#FROM johanneskoester/snakemake # base image for snakemake
+FROM continuumio/miniconda3
+
 
 # adding label to the docker
 LABEL SNPBOTS.version="0.0.1-alpha"
@@ -21,6 +24,11 @@ RUN conda config --add channels conda-forge
 RUN conda config --add channels defaults
 RUN conda config --add channels r
 RUN conda config --add channels bioconda
+RUN conda install snakemake # 
+RUN conda install pandas
+RUN conda install requests
+RUN conda install biopython
+RUN conda install blast
 
 # get the latest verison of magicblast
 RUN wget ftp://ftp.ncbi.nlm.nih.gov/blast/executables/magicblast/LATEST//ncbi-magicblast-1.2.0-x64-linux.tar.gz
@@ -28,13 +36,10 @@ RUN tar zxvf ncbi-magicblast-1.2.0-x64-linux.tar.gz
 RUN cp ncbi-magicblast-1.2.0/bin/magicblast /bin/
 RUN cp ncbi-magicblast-1.2.0/bin/makeblastdb /bin/
 
-
 # install PSST
 RUN git clone https://github.com/NCBI-Hackathons/PSST.git
 
-
 #
-#RUN echo ["/bin/bash","which git"]
 RUN echo "Near loading"
 
 # Run the command upon initiating conatiner
