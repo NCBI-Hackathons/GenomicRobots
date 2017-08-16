@@ -28,8 +28,8 @@ MIN_MAF = 0.01
 
 targets = [
     fastqs,
-    expand('{tmpdir}/feature_matrix.csv', tmpdir=TMPDIR)
-
+    expand('{tmpdir}/feature_matrix.csv', tmpdir=TMPDIR),
+    os.path.join(TMPDIR, 'output.txt')
 ]
 
 
@@ -84,5 +84,19 @@ rule post_psst:
         '{input.samples_file} '
         '--out_matrix {output.out_matrix} '
         '--maf_table {output.maf_table} '
+
+rule post_filter:
+    input:
+        out_matrix=rules.post_psst.output.out_matrix,
+        rsids=os.path.join(TMPDIR, 'stripped_rs.list'),
+    output: os.path.join(TMPDIR, 'output.txt')
+    run:
+        df = pd.read_table(input, index_col=0).transpose()
+        ids = [i.strip() for i in open(input.rsids)]
+        found = list(df.index[df.sum(axis=1) > 0])
+        with open(output[0], 'w') as fout:
+            for i in found:
+                fout.write(i + '\n')
+
 
 # vim: ft=python
