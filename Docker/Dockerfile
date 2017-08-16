@@ -15,6 +15,12 @@ RUN apt-get -y install libssl-dev
 RUN apt-get -y install wget 
 RUN apt-get -y install git
 
+# conda packages 
+#https://conda.io/docs/config.html
+RUN conda config --add channels conda-forge
+RUN conda config --add channels defaults
+RUN conda config --add channels r
+RUN conda config --add channels bioconda
 
 # get the latest verison of magicblast
 RUN wget ftp://ftp.ncbi.nlm.nih.gov/blast/executables/magicblast/LATEST//ncbi-magicblast-1.2.0-x64-linux.tar.gz
@@ -25,6 +31,11 @@ RUN cp ncbi-magicblast-1.2.0/bin/makeblastdb /bin/
 
 # install PSST
 RUN git clone https://github.com/NCBI-Hackathons/PSST.git
+
+
+#
+#RUN echo ["/bin/bash","which git"]
+RUN echo "Near loading"
 
 # Run the command upon initiating conatiner
 #CMD python integritycheck.py # to check there are no modifications in docker image
