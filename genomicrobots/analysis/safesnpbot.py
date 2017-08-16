@@ -1,8 +1,9 @@
 import yaml
 import uuid
+import os
+import os.path
 import subprocess as sp
 from flask import current_app as app
-import os
 
 
 def safe_snp_bot(rsids):
@@ -12,12 +13,14 @@ def safe_snp_bot(rsids):
 
     SESSION_ID = str(uuid.uuid4())
 
+    rsid_file_name = robot_config['tmp_pattern'].format(SESSION_ID=SESSION_ID)
+
     # create temp dir
-    dir_name = robot_config['tmp_pattern'].format(SESSION_ID=SESSION_ID)
+    dir_name = os.path.dirname(rsid_file_name)
     os.mkdir(dir_name)
 
     # create input file
-    with open(os.path.join(dir_name, "rsid.txt"), 'w') as o:
+    with open(rsid_file_name, 'w') as o:
         for rs in rsids:
             o.write("{}\n".format(rs))
 
