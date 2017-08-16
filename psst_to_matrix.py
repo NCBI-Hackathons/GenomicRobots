@@ -102,7 +102,7 @@ df.to_csv("feature_matrix.csv")
 # calculate MAF within the queried population
 df_maf = df.T
 df_maf['sum'] = df_maf.sum(axis=1)
-df_maf['maf'] = df_maf['sum'] / len(samples)
+df_maf['maf'] = df_maf['sum'] / (len(samples) * 2)
 df_maf = df_maf.filter(['maf'])
 print(df_maf)
 df_maf.to_csv("maf_table.csv")

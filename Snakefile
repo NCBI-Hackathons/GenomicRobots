@@ -1,17 +1,24 @@
+import os
 import pandas as pd
+import yaml
 
-# INPUTS ----------------------------------------------------------------------
+config.update(yaml.load(open('config.yaml')))
+SAMPLES_FILE = config['samples_table']
 
-# Maps sample ID to FASTQ on disk
-SAMPLES_FILE = 'testsamples.in'
+if 'SESSION_ID' not in os.environ:
+    SNPS_FILE = 'testsnps.in'
+else:
+    SNPS_FILE = config['tmp_pattern'].format(SESSION_ID=os.environ['SESSION_ID'])
 
-# rsIDs. Contains "rs"; these will be stripped out before sending to PSST.
-SNPS_FILE = 'testsnps.in'
-# ----------------------------------------------------------------------------
+SAMPLES = pd.read_table(
+        SAMPLES_FILE,
+        comment="#",
+        index_col=0,
+        names=['sampleid', 'path']
+)['path'].to_dict()
 
-SAMPLES = pd.read_table(SAMPLES_FILE, index_col=0, names=['sampleid', 'path'])['path'].to_dict()
-sample_ids = SAMPLES.keys()
-fastqs = SAMPLES.values()
+sample_ids = list(SAMPLES.keys())
+fastqs = list(SAMPLES.values())
 
 # TODO: what thresh makes sense?
 MIN_MAF = 0.01
@@ -52,12 +59,12 @@ rule psst:
         fastq=lambda wildcards: SAMPLES[wildcards.sampleid]
     output:
         '{sampleid}/results.tsv'
-    threads: 4
+    threads: 8
+    conda:  'py2env.yaml'
     shell:
-        'grep {wildcards.sampleid} {input.fastq} > /tmp/{wildcards.sampleid}.srr; '
         'mkdir -p {wildcards.sampleid} && cd {wildcards.sampleid} &&'
-        'PATH=/home/ubuntu/bballew/PSST:/home/ubuntu/bballew/ncbi-magicblast-1.2.0/bin/:$PATH '
-        'psst.sh -s /tmp/{wildcards.sampleid}.srr -n ../{input.rsids} -d . -e none@example.com -t {threads} -p {threads}'
+        'PATH=/home/ubuntu/daler/PSST:/home/ubuntu/bballew/ncbi-magicblast-1.2.0/bin/:$PATH '
+        'psst.sh -f {input.fastq} -n ../{input.rsids} -d . -e none@example.com -t {threads} -p {threads}'
 
 rule post_psst:
     input:

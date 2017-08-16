@@ -1,0 +1,12 @@
+# The web app will save a temp file per session, and spawn a snakemake process.
+# Snakemake will read SESSION_ID from os.environ; this file will become the
+# starting point for the run.
+tmp_pattern: "/tmp/{SESSION_ID}/rsid.txt"
+
+# Tab-separated file, 2 columns. First column is sample ID; second column is
+# path to (possibly gzipped) FASTQ for that sample.
+samples_table: "samples.tsv"
+
+# Paths to tools that do not yet have a conda package
+magicblast_path: "/home/ubuntu/bballew/ncbi-magicblast-1.2.0/bin"
+psst_path: "/home/ubuntu/daler/PSST"
