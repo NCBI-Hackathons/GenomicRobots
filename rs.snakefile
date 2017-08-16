@@ -1,8 +1,8 @@
 import glob
 
-vcfs = glob.glob('/home/ubunut/data/1000_genomes_reads/vcf_files_20130502/*.vcf.gz')
+vcfs = glob.glob('/home/ubuntu/data/1000_genomes_reads/vcf_files_20130502/*.vcf.gz')
 targets = [i + '.rs.tab' for i in vcfs]
-
+print(targets)
 rule all:
     input: targets
 
