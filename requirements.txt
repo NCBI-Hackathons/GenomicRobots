@@ -4,3 +4,5 @@ requests
 biopython
 blast
 snpsift
+flask
+flask-script
