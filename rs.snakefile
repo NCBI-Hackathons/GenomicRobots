@@ -16,7 +16,7 @@ def filt(x):
         return False
     return True
 
-vcfs = list(filter(vcfs))
+vcfs = list(filter(filt, vcfs))
 
 targets = [i + '.rs.tab' for i in vcfs]
 
