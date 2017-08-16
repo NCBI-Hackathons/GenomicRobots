@@ -1,31 +1,76 @@
 # GenomicRobots
 ## Introduction:
 
-NGS datasets no longer only exist in a few centralized locations. Sharing genotypic data is hampered due to both the cumbersome analytic processes involved in analysing NGS datasets and lack of accessibility. This is a lightweight platform that allows reasearchers to conduct preliminary analysis on despersive sets of NGS data.
+NGS datasets no longer only exist in a few centralized locations. Sharing genotypic data is hampered due to both the cumbersome analytic processes involved in analysing NGS datasets and lack of accessibility. This is a lightweight platform that allows reasearchers to conduct prelimianry analysis on despersive sets of NGS data.
 
-## Goals: 
+## Goals:
 
 To build a a web-based tool that simplifies the process of retrieving patients genotypic information.
 
-## Target Audience: 
+## Use cases
 
-Any institution in the BoT network can implement to share genetic data. The BoT questions of the form "Do you have information about the following mutation?" and responds with one of "Yes" or "No", among potentially more but no personal information. 
+1. Alice has unpublished, private data consisting of FASTQ files or VCF variant
+   calls. Bob has a list of variants he is interested in studying. Bob would
+   like to know if he could collaborate with Alice, but cannot directly access
+   her data. As a pre-collaboration step, Alice runs this code on a server
+   connected to her data. Bob then queries the data through a web interface,
+   and the server responds with a yes or no that the variants are in the data
+   set.
 
-## Significance: 
+   This is much like the [beacon model](https://beacon-network.org), but here
+   we implement an additional "strategic flipping" filtering step described
+   (but not implemented) in https://www.ncbi.nlm.nih.gov/pubmed/28786360 to
+   mitigate possible privacy issue by introducing a calculated amount of noise
+   to the "yes" or "no" answer.
 
-Need to share data 
+2. Charlie has unpublished FASTQ files and would prefer not to run variant
+   calling. He only wants to know if his variants of interest are found in his
+   FASTQ files. He runs this code on a server connected to his data, and
+   queries for the variants. In this case, no noise is added to the output,
+   since there are no privacy issues with Charlie using his own data.
+
+
+## Target Audience:
+
+Any institution in the BoT network can implement to share genetic data. The BoT questions of the form "Do you have information about the following mutation?" and responds with one of "Yes" or "No", among potentially more but no personal information.
+
+## Significance:
+
+Need to share data
 
 Need to protect privacy
 
-Need for a simplistic workflow for retrieving genomic information. 
+Need for a simplistic workflow for retrieving genomic information.
 
-## Question: 
+## Question:
 
-Can we simplify the process of retrival of a patients  genotypic information?  
+Can we simplify the process of retrival of a patients genotypic information?
 
 ## Method:
 
-Fastq file -> implement the psst pipeline -> yes or no output 
+There are two operating modes:
+
+- preprocessed VCF input
+- raw FASTQ file
+
+The strategic flipping method requires alternative allele frequencies to be
+computed on the local data, and therefore data needs to be preprocessed into
+VCFs with allele frequencies.. In cases where this is infeasible, raw FASTQs
+can be used, and [PSST](https://github.com/NCBI-Hackathons/PSST) is used to
+identify variants in the FASTQ files.
+
+This latter mode is additionl
+
+A web app accepts a list of variants.
+
+Depending on the configuration, these variants are either checked directly
+against a pool of configured VCF files, or checked against configured FASTQ
+files. When querying against VCFs, we can use the strategic flipping method to
+add noise to the output to mitigate security and privacy concerns.
+
+
+
+Fastq file -> implement the psst pipeline -> yes or no output
 
 The PSST (NCBI Hackathon; La 2017) pipeline is as follows:
 
@@ -40,15 +85,12 @@ The PSST (NCBI Hackathon; La 2017) pipeline is as follows:
 
 ## To run PSST:
 
-```
 psst.sh -s <samples_list> -n <rsids_list> -d <.> -e <email> -t <n> -p <n>
-psst.sh -f </path/to/fastq.fa> -n <rsids_list> -d <.> -e <email> -t <n> -p <n>
-```
 
 see https://github.com/NCBI-Hackathons/PSST for more details
 
 ### Input files:
-- samples_list (e.g. testsamples.in) is a list of SRA accessions (one per line) 
+- samples_list (e.g. testsamples.in) is a list of SRA accessions (one per line)
   OR
 - path/to/fastq
   - can only accept a single path and filename, not a list
@@ -73,23 +115,21 @@ Takes PSST output and converts to gene dosage sample x snp matrix.
 
 positional arguments:
   psst_snps_in     List of SNPs run through PSST
-  psst_samples_in  List of samples with path to fastq run through PSST
+  psst_samples_in  List of samples run through PSST
+  psst_out         PSST output file
 
 optional arguments:
   -h, --help       show this help message and exit
   ```
-  
--input: 
-  - assumes PSST is being run once per fastq, and PSST output can be found in samplename/results.tsv
 
-- output files: 
+- output files:
   - feature_matrix.csv
   - maf_table.csv
 
-## Anticipated results: 
+## Anticipated results:
 
 A simplistic web-based tool that simplifies extraction of genotypic information.
 
-# Conclusion: 
+# Conclusion:
 
 Our findings showed most institutions have databases through which de-identified genomic data can be shared but the issue of a simplistic workflow to retrieve and share genotypic information remains a major challenge. This web-based tool simplifies the process of retrieving genotypic information for sharing among institutions within the network.

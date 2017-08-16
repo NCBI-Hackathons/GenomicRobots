@@ -7,8 +7,10 @@ SAMPLES_FILE = config['samples_table']
 
 if 'SESSION_ID' not in os.environ:
     SNPS_FILE = 'testsnps.in'
+    TMPDIR = 'output'
 else:
     SNPS_FILE = config['tmp_pattern'].format(SESSION_ID=os.environ['SESSION_ID'])
+    TMPDIR = os.path.dirname(SNPS_FILE)
 
 SAMPLES = pd.read_table(
         SAMPLES_FILE,
@@ -23,10 +25,11 @@ fastqs = list(SAMPLES.values())
 # TODO: what thresh makes sense?
 MIN_MAF = 0.01
 
+
 targets = [
     fastqs,
-    expand('{sample_id}/answer.txt', sample_id=sample_ids),
-    'answer.txt'
+    expand('{tmpdir}/feature_matrix.csv', tmpdir=TMPDIR),
+    os.path.join(TMPDIR, 'output.txt')
 ]
 
 
@@ -37,7 +40,7 @@ rule all:
 rule pre_filter_ids:
     input:
         rsids=SNPS_FILE
-    output: 'filtered_rsids.txt'
+    output: os.path.join(TMPDIR, 'filtered_rsids.txt')
     shell:
         'python filter_ids.py '
         '--ids {input} '
@@ -47,15 +50,15 @@ rule pre_filter_ids:
 
 # PSST uses IDs without the "rs", so we strip those here.
 rule strip_rs:
-    input: 'filtered_rsids.txt'
-    output: 'stripped_rs.list'
+    input: os.path.join(TMPDIR, 'filtered_rsids.txt')
+    output: os.path.join(TMPDIR, 'stripped_rs.list')
     shell:
         'sed "s/^rs//g" {input} > {output}'
 
 
 rule psst:
     input:
-        rsids='stripped_rs.list',
+        rsids=os.path.join(TMPDIR, 'stripped_rs.list'),
         fastq=lambda wildcards: SAMPLES[wildcards.sampleid]
     output:
         '{sampleid}/results.tsv'
@@ -66,35 +69,34 @@ rule psst:
         'PATH=/home/ubuntu/daler/PSST:/home/ubuntu/bballew/ncbi-magicblast-1.2.0/bin/:$PATH '
         'psst.sh -f {input.fastq} -n ../{input.rsids} -d . -e none@example.com -t {threads} -p {threads}'
 
+
 rule post_psst:
     input:
-        rsids='stripped_rs.list',
-        psst='{sampleid}/results.tsv'
-    output: '{sampleid}/out.csv'
+        samples_file=SAMPLES_FILE,
+        rsids=os.path.join(TMPDIR, 'stripped_rs.list'),
+        psst=expand('{sampleid}/results.tsv', sampleid=sample_ids)
+    output:
+        out_matrix=os.path.join(TMPDIR, 'feature_matrix.csv'),
+        maf_table=os.path.join(TMPDIR, 'maf_table.csv'),
     shell:
         'python psst_to_matrix.py '
         '{input.rsids} '
-        '{SAMPLES_FILE} '
-        '{input.psst} '
+        '{input.samples_file} '
+        '--out_matrix {output.out_matrix} '
+        '--maf_table {output.maf_table} '
 
-
-rule answer:
-    input: '{sampleid}/out.csv',
-    output: '{sampleid}/answer.txt'
+rule post_filter:
+    input:
+        out_matrix=rules.post_psst.output.out_matrix,
+        rsids=os.path.join(TMPDIR, 'stripped_rs.list'),
+    output: os.path.join(TMPDIR, 'output.txt')
     run:
-        # TODO: actually write this
-        shell('touch {output}')
+        df = pd.read_table(input[0], index_col=0).transpose()
+        ids = [i.strip() for i in open(input.rsids)]
+        found = list(df.index[df.sum(axis=1) > 0])
+        with open(output[0], 'w') as fout:
+            for i in found:
+                fout.write(i + '\n')
 
-
-rule aggregate:
-    input: expand('{sampleid}/answer.txt', sampleid=sample_ids)
-    output: 'answer.txt'
-    run:
-
-        # TODO: this is where we have to make various decisions about what/how
-        # to report
-        for i in input:
-            df = pd.read_table(i)
-        shell('touch {output}')
 
 # vim: ft=python
