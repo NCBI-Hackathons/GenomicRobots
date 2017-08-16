@@ -47,6 +47,8 @@ def get_dict(myKey, myValue, dosage, featureList, myDict):
 parser = argparse.ArgumentParser(description = 'Takes PSST output and converts to gene dosage sample x snp matrix.')
 parser.add_argument('psst_snps_in', help='List of SNPs run through PSST')
 parser.add_argument('psst_samples_in', help='List of samples with path to fastq run through PSST')
+parser.add_argument('--out_matrix', default='feature_matrix.csv', help='Output location for feature matrix')
+parser.add_argument('--maf_table', default='maf_table.csv', help='Output location for maf table')
 results = parser.parse_args()
 
 # for debugging
@@ -74,7 +76,6 @@ with open(results.psst_samples_in) as f:
         psst_out = line[0] + "/results.tsv"
         check_file(psst_out)
         sample_count = sample_count + 1
-        print(psst_out)
         # read in het/hom snps found
         with open(psst_out) as f:
             next(f)  # skip header
@@ -95,13 +96,11 @@ df1 = (pd.DataFrame(het_dict)).T
 df2 = (pd.DataFrame(hom_dict)).T
 df = df1.add(df2)
 df.columns = snps
-# print(df)
-df.to_csv("feature_matrix.csv")
+df.to_csv(results.out_matrix)
 
 # calculate MAF within the queried population
 df_maf = df.T
 df_maf['sum'] = df_maf.sum(axis=1)
 df_maf['maf'] = df_maf['sum'] / (sample_count * 2)
 df_maf = df_maf.filter(['maf'])
-# print(df_maf)
-df_maf.to_csv("maf_table.csv")
+df_maf.to_csv(results.maf_table)
