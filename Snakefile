@@ -66,7 +66,7 @@ rule psst:
     shell:
         'mkdir -p {wildcards.sampleid} && cd {wildcards.sampleid} &&'
         'PATH=/home/ubuntu/daler/PSST:/home/ubuntu/bballew/ncbi-magicblast-1.2.0/bin/:$PATH '
-        'psst.sh -f {input.fastq} -n ../{input.rsids} -d . -e none@example.com -t {threads} -p {threads}'
+        'psst.sh -f {input.fastq} -n {input.rsids} -d . -e none@example.com -t {threads} -p {threads}'
 
 
 rule post_psst:
