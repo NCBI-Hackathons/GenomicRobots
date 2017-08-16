@@ -7,8 +7,10 @@ SAMPLES_FILE = config['samples_table']
 
 if 'SESSION_ID' not in os.environ:
     SNPS_FILE = 'testsnps.in'
+    TMPDIR = 'output'
 else:
     SNPS_FILE = config['tmp_pattern'].format(SESSION_ID=os.environ['SESSION_ID'])
+    TMPDIR = os.path.dirname(SNPS_FILE)
 
 SAMPLES = pd.read_table(
         SAMPLES_FILE,
@@ -23,10 +25,11 @@ fastqs = list(SAMPLES.values())
 # TODO: what thresh makes sense?
 MIN_MAF = 0.01
 
+
 targets = [
     fastqs,
-    expand('{sample_id}/answer.txt', sample_id=sample_ids),
-    'answer.txt'
+    expand('{tmpdir}/feature_matrix.csv', tmpdir=TMPDIR)
+
 ]
 
 
@@ -66,35 +69,20 @@ rule psst:
         'PATH=/home/ubuntu/daler/PSST:/home/ubuntu/bballew/ncbi-magicblast-1.2.0/bin/:$PATH '
         'psst.sh -f {input.fastq} -n ../{input.rsids} -d . -e none@example.com -t {threads} -p {threads}'
 
+
 rule post_psst:
     input:
+        samples_file=SAMPLES_FILE,
         rsids='stripped_rs.list',
-        psst='{sampleid}/results.tsv'
-    output: '{sampleid}/out.csv'
+        psst=expand('{sampleid}/results.tsv', sampleid=sample_ids)
+    output:
+        out_matrix='{tmpdir}/feature_matrix.csv',
+        maf_table='{tmpdir}/maf_table.csv',
     shell:
         'python psst_to_matrix.py '
         '{input.rsids} '
-        '{SAMPLES_FILE} '
-        #'{input.psst} '
-
-
-rule answer:
-    input: '{sampleid}/out.csv',
-    output: '{sampleid}/answer.txt'
-    run:
-        # TODO: actually write this
-        shell('touch {output}')
-
-
-rule aggregate:
-    input: expand('{sampleid}/answer.txt', sampleid=sample_ids)
-    output: 'answer.txt'
-    run:
-
-        # TODO: this is where we have to make various decisions about what/how
-        # to report
-        for i in input:
-            df = pd.read_table(i)
-        shell('touch {output}')
+        '{input.samples_file} '
+        '--out_matrix {output.out_matrix} '
+        '--maf_table {output.maf_table} '
 
 # vim: ft=python
