@@ -90,9 +90,8 @@ rule post_filter:
         rsids=os.path.join(TMPDIR, 'stripped_rs.list'),
     output: os.path.join(TMPDIR, 'output.txt')
     run:
-        df = pd.read_table(input[0], index_col=0).transpose()
-        ids = [i.strip() for i in open(input.rsids)]
-        found = list(df.index[df.sum(axis=1) > 0])
+        df = pd.read_csv(input[0], index_col=0).transpose()
+        found = list(df[df.sum(axis=1) > 0].index)
         with open(output[0], 'w') as fout:
             for i in found:
                 fout.write(i + '\n')
