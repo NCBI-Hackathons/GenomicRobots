@@ -9,9 +9,9 @@ SAMPLES_FILE = 'testsamples.in'
 SNPS_FILE = 'testsnps.in'
 # ----------------------------------------------------------------------------
 
-SAMPLES = pd.read_table(SAMPLES_FILE, index_col=0, names=['sampleid', 'path'])['path'].to_dict()
-sample_ids = SAMPLES.keys()
-fastqs = SAMPLES.values()
+SAMPLES = pd.read_table(SAMPLES_FILE, comment="#", index_col=0, names=['sampleid', 'path'])['path'].to_dict()
+sample_ids = list(SAMPLES.keys())
+fastqs = list(SAMPLES.values())
 
 # TODO: what thresh makes sense?
 MIN_MAF = 0.01
@@ -52,12 +52,11 @@ rule psst:
         fastq=lambda wildcards: SAMPLES[wildcards.sampleid]
     output:
         '{sampleid}/results.tsv'
-    threads: 4
+    threads: 8
     shell:
-        'grep {wildcards.sampleid} {input.fastq} > /tmp/{wildcards.sampleid}.srr; '
         'mkdir -p {wildcards.sampleid} && cd {wildcards.sampleid} &&'
         'PATH=/home/ubuntu/bballew/PSST:/home/ubuntu/bballew/ncbi-magicblast-1.2.0/bin/:$PATH '
-        'psst.sh -s /tmp/{wildcards.sampleid}.srr -n ../{input.rsids} -d . -e none@example.com -t {threads} -p {threads}'
+        'psst.sh -f {input.fastq} -n ../{input.rsids} -d . -e none@example.com -t {threads} -p {threads}'
 
 rule post_psst:
     input:
