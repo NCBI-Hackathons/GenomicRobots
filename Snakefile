@@ -1,15 +1,22 @@
+import os
 import pandas as pd
+import yaml
 
-# INPUTS ----------------------------------------------------------------------
+config.update(yaml.load(open('config.yaml')))
+SAMPLES_FILE = config['samples_table']
 
-# Maps sample ID to FASTQ on disk
-SAMPLES_FILE = 'testsamples.in'
+if 'SESSION_ID' not in os.environ:
+    SNPS_FILE = 'testsnps.in'
+else:
+    SNPS_FILE = config['tmp_pattern'].format(SESSION_ID=os.environ['SESSION_ID'])
 
-# rsIDs. Contains "rs"; these will be stripped out before sending to PSST.
-SNPS_FILE = 'testsnps.in'
-# ----------------------------------------------------------------------------
+SAMPLES = pd.read_table(
+        SAMPLES_FILE,
+        comment="#",
+        index_col=0,
+        names=['sampleid', 'path']
+)['path'].to_dict()
 
-SAMPLES = pd.read_table(SAMPLES_FILE, comment="#", index_col=0, names=['sampleid', 'path'])['path'].to_dict()
 sample_ids = list(SAMPLES.keys())
 fastqs = list(SAMPLES.values())
 
