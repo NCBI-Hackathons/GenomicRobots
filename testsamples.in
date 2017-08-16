@@ -1,3 +1,2 @@
-SRR0000111
-SRR5604318
-SR00000003
+samp1	path/to/fastq
+samp2	path/to/fastq
