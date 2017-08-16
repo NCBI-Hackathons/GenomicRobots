@@ -5,7 +5,7 @@ import argparse
 import os.path
 
 def compileallAF(filepath, tail, ftype):
-	# creates clean dataframs of local and global AFs
+    # creates clean dataframs of local and global AFs
     filelist = glob.glob(filepath+tail)
     chromfilslist = []
     for file in filelist:
@@ -30,7 +30,7 @@ def compileallAF(filepath, tail, ftype):
     return AF
 
 def calculate_deltD(globaldf, localdf):
-	#creates list of snps to mask
+    #creates list of snps to mask
     nsamples = 186
     loggamma = -6
     gamma = 0.000001
@@ -49,10 +49,10 @@ def calculate_deltD(globaldf, localdf):
     return(indlist)
 
 if __name__ == "__main__":
-	parser = argparse.ArgumentParser(description='')
-	parser.add_argument('-g', help='globalAFfolder')
-	parser.add_argument('-l', help='localAFfolder')
-	args = parser.parse_args()
-	localAF = compileallAF(args.l, '*.rs', 'global')
-	globalAF = compileallAF(args.g, '*.txt', 'local')[['CALC_AF']]
-	print(calculate_deltD(globalAF, localAF))
+    parser = argparse.ArgumentParser(description='')
+    parser.add_argument('-g', help='globalAFfolder')
+    parser.add_argument('-l', help='localAFfolder')
+    args = parser.parse_args()
+    localAF = compileallAF(args.l, '*.rs', 'global')
+    globalAF = compileallAF(args.g, '*.txt', 'local')[['CALC_AF']]
+    print(calculate_deltD(globalAF, localAF))
