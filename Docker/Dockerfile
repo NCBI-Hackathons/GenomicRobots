@@ -37,8 +37,7 @@ RUN cp ncbi-magicblast-1.2.0/bin/magicblast /bin/
 RUN cp ncbi-magicblast-1.2.0/bin/makeblastdb /bin/
 
 # install PSST
-RUN git clone https://github.com/NCBI-Hackathons/PSST.git
-
+RUN git clone https://github.com/kanekalla/PSST.git
 #
 RUN echo "Near loading"
 
