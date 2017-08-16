@@ -35,7 +35,7 @@ def safe_snp_bot(rsids):
                 '-d', os.path.dirname(yaml_file_name),
                 '--configfile', yaml_file_name,
                 '--use-conda',
-                '-j', '4'], env=snake_env)
+                '-j', '16'], env=snake_env)
     except sp.CalledProcessError:
         return
 
