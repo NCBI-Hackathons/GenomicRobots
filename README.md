@@ -73,12 +73,14 @@ Takes PSST output and converts to gene dosage sample x snp matrix.
 
 positional arguments:
   psst_snps_in     List of SNPs run through PSST
-  psst_samples_in  List of samples run through PSST
-  psst_out         PSST output file
+  psst_samples_in  List of samples with path to fastq run through PSST
 
 optional arguments:
   -h, --help       show this help message and exit
   ```
+  
+-input: 
+  - assumes PSST is being run once per fastq, and PSST output can be found in samplename/results.tsv
 
 - output files: 
   - feature_matrix.csv
