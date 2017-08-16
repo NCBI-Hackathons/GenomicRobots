@@ -26,7 +26,7 @@ def safe_snp_bot(rsids):
             o.write("{}\n".format(rs))
 
     try:
-        snakemake_file_name = os.path.dirname(yaml_file) + '/Snakemake'
+        snakemake_file_name = os.path.dirname(yaml_file) + '/Snakefile'
         snake_env = copy.copy(os.environ)
         snake_env['SESSION_ID'] = SESSION_ID
         sp.check_call(['/home/ubuntu/snakemake-robot/bin/snakemake', '-s', snakemake_file_name, '--use-conda', '-j', '4'], env=snake_env)
