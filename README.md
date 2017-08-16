@@ -135,7 +135,7 @@ A simplistic web-based tool that simplifies extraction of genotypic information.
 Our findings showed most institutions have databases through which de-identified genomic data can be shared but the issue of a simplistic workflow to retrieve and share genotypic information remains a major challenge. This web-based tool simplifies the process of retrieving genotypic information for sharing among institutions within the network.
 # People
 
-Alexander Goncearenco: alexander.goncearenco@gmail.com
+Alexander Goncearenco: alexandr.goncearenco@nih.gov
 Bari Ballew: bari.ballew@nih.gov
 Daler: dalerr@niddk.nih.gov
 Justin Ideozu: jideozu@luriechildrens.org
