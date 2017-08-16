@@ -76,8 +76,8 @@ rule post_psst:
         rsids=os.path.join(TMPDIR, 'stripped_rs.list'),
         psst=expand('{sampleid}/results.tsv', sampleid=sample_ids)
     output:
-        out_matrix='{tmpdir}/feature_matrix.csv',
-        maf_table='{tmpdir}/maf_table.csv',
+        out_matrix=os.path.join(TMPDIR, 'feature_matrix.csv'),
+        maf_table=os.path.join(TMPDIR, 'maf_table.csv'),
     shell:
         'python psst_to_matrix.py '
         '{input.rsids} '
@@ -91,7 +91,7 @@ rule post_filter:
         rsids=os.path.join(TMPDIR, 'stripped_rs.list'),
     output: os.path.join(TMPDIR, 'output.txt')
     run:
-        df = pd.read_table(input, index_col=0).transpose()
+        df = pd.read_table(input[0], index_col=0).transpose()
         ids = [i.strip() for i in open(input.rsids)]
         found = list(df.index[df.sum(axis=1) > 0])
         with open(output[0], 'w') as fout:
