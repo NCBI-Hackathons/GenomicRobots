@@ -10,7 +10,7 @@ rule snpsift:
     input: '{prefix}.vcf.gz'
     output: '{prefix}.vcf.gz.rs.tab'
     shell:
-        'SnpSift {input} ID AF AC AN EAS_AF EUR_AF AFR_AF SAS_AF > {output}'
+        'SnpSift extractFields {input} ID AF AC AN EAS_AF EUR_AF AFR_AF SAS_AF > {output}'
 
 
 # vim: ft=python
