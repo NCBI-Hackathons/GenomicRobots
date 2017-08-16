@@ -33,7 +33,7 @@ def get_dict(myKey, myValue, dosage, featureList, myDict):
     for x in featureList:
         if x in myList:
             tempList.append(dosage)
-        else:
+        else:             
             tempList.append(0)
     myDict[myKey] = tempList
     return myDict
