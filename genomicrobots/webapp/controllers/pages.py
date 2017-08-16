@@ -10,6 +10,7 @@ from werkzeug.exceptions import NotFound
 # import re
 
 from ...analysis.example_analysis import *
+from ...analysis.safesnpbot import *
 
 web = Blueprint('genomicrobots', __name__)
 
@@ -19,6 +20,7 @@ web = Blueprint('genomicrobots', __name__)
 
 robots = {
     'example': example_analysis,
+    'safe_snp_bot': safe_snp_bot,
 }
 
 
@@ -27,8 +29,8 @@ def home_page():
     return render_template('pages/home.html')
 
 
-@web.route("/api/example_analysis", methods=['POST'])
-def api_example():
+@web.route("/api/analysis", methods=['POST'])
+def api_analysis():
     """ Runs genomic scan. Returns JSON PII-safe respones """
 
     robot_name = request.form.get("robot")
@@ -40,6 +42,11 @@ def api_example():
     input_data = request.form.get("input_data")
     rslist = input_data.strip().split("\n")
     response = robot_function(rslist)
+
+    if response is None:
+        return jsonify({
+            'error': 'An error occured while running the robot'
+        })
 
     return jsonify({
         'response': response
