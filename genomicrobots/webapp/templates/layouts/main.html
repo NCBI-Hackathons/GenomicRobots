@@ -1,0 +1,90 @@
+<!doctype html>
+<head>
+<meta charset="utf-8">
+<title>Genomic Robots: {% block title %}{% endblock %}</title>
+
+<!-- meta -->
+<meta name="description" content="">
+<meta name="author" content="">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- /meta -->
+
+<!-- styles -->
+<!-- <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}" /> -->
+<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+<!-- <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-flat.min.css') }}" /> -->
+<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-table.css') }}">
+<!-- <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/layout.main.css') }}" /> -->
+<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
+<!-- <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/main.responsive.css') }}" /> -->
+<!-- <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/main.quickfix.css') }}" /> -->
+<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='fonts/avenir-lt-std/style.css') }}" />
+<!-- /styles -->
+
+<!-- favicons -->
+<link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='ico/favicon.png') }}?v=3">
+<!-- <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{ url_for('static', filename='ico/apple-touch-icon-144-precomposed.png') }}">
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="{{ url_for('static', filename='ico/apple-touch-icon-114-precomposed.png') }}">
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="{{ url_for('static', filename='ico/apple-touch-icon-72-precomposed.png') }}">
+<link rel="apple-touch-icon-precomposed" href="{{ url_for('static', filename='ico/apple-touch-icon-57-precomposed.png') }}">
+ -->
+ 
+<!-- scripts -->
+<script src="{{ url_for('static', filename='js/libs/modernizr-2.6.2.min.js') }}"></script>
+<!--[if lt IE 9]><script src="{{ url_for('static', filename='js/libs/respond-1.3.0.min.js') }}"></script><![endif]-->
+<!-- /scripts -->
+
+</head>
+<body>
+
+  <noscript>
+      <div class="content">
+          <h1><span class="t_badge t_badge_icon" style="background: #dc322f"><i class="icon-attention"></i></span>
+              Javascript is required to view the website.</h1>
+          <section><h2>Please enable Javascript and reload the page.</h2></section>
+      </div>
+  </noscript>
+
+  <!-- Wrap all page content here -->
+  <!-- <div class="container wrap shadow"> -->
+
+    <!-- Begin page content -->
+    <main id="content" role="main" class="container shadow">
+
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          {% for message in messages %}
+            <div class="alert alert-block alert-error fade in">
+              <a class="close" data-dismiss="alert">&times;</a>
+              {{ message  }}
+            </div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+      {% block content %}{% endblock %}
+
+    </main>
+
+<script>window.jQuery || document.write("<script src=\"{{ url_for('static', filename='js/libs/jquery-1.11.3.min.js') }}\"><\/script>")</script>
+
+  <script defer src="{{ url_for('static', filename='js/libs/bootstrap.min.js') }}"></script>
+  <script defer src="{{ url_for('static', filename='js/libs/bootstrap-table.min.js') }}"></script>
+  <script defer src="{{ url_for('static', filename='js/libs/extensions/bootstrap-tab-history.js') }}"></script>
+  <script defer src="{{ url_for('static', filename='js/libs/extensions/export/tableExport.min.js') }}"></script>
+  <script defer src="{{ url_for('static', filename='js/libs/extensions/export/bootstrap-table-export.js') }}"></script>
+  <script defer src="{{ url_for('static', filename='js/libs/extensions/download/bootstrap-table-download.js') }}"></script>
+  <script defer src="{{ url_for('static', filename='js/libs/extensions/natural-sorting/bootstrap-table-natural-sorting.min.js') }}"></script>
+  <script defer src="{{ url_for('static', filename='js/libs/d3.min.js') }}" charset="utf-8"></script>
+  <script defer src="{{ url_for('static', filename='js/libs/d3.tip.v0.6.3.js') }}"></script>
+  <script defer src="{{ url_for('static', filename='js/plugins.js') }}"></script>
+
+  <script type="text/javascript">
+  </script>
+
+  {% block script %}{% endblock %}
+  
+  <script defer src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+</html>

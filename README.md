@@ -1,7 +1,7 @@
 # GenomicRobots
 ## Introduction:
 
-NGS datasets no longer only exist in a few centralized locations. Sharing genotypic data is hampered due to both the cumbersome analytic processes involved in analysing NGS datasets and lack of accessibility. This is a lightweight platform that allows reasearchers to conduct prelimianry analysis on despersive sets of NGS data.
+NGS datasets no longer only exist in a few centralized locations. Sharing genotypic data is hampered due to both the cumbersome analytic processes involved in analysing NGS datasets and lack of accessibility. This is a lightweight platform that allows reasearchers to conduct preliminary analysis on despersive sets of NGS data.
 
 ## Goals: 
 
@@ -40,7 +40,10 @@ The PSST (NCBI Hackathon; La 2017) pipeline is as follows:
 
 ## To run PSST:
 
+```
 psst.sh -s <samples_list> -n <rsids_list> -d <.> -e <email> -t <n> -p <n>
+psst.sh -f </path/to/fastq.fa> -n <rsids_list> -d <.> -e <email> -t <n> -p <n>
+```
 
 see https://github.com/NCBI-Hackathons/PSST for more details
 
@@ -70,12 +73,14 @@ Takes PSST output and converts to gene dosage sample x snp matrix.
 
 positional arguments:
   psst_snps_in     List of SNPs run through PSST
-  psst_samples_in  List of samples run through PSST
-  psst_out         PSST output file
+  psst_samples_in  List of samples with path to fastq run through PSST
 
 optional arguments:
   -h, --help       show this help message and exit
   ```
+  
+-input: 
+  - assumes PSST is being run once per fastq, and PSST output can be found in samplename/results.tsv
 
 - output files: 
   - feature_matrix.csv
