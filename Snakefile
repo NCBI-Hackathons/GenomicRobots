@@ -2,7 +2,6 @@ import os
 import pandas as pd
 import yaml
 
-config.update(yaml.load(open('config.yaml')))
 SAMPLES_FILE = config['samples_table']
 
 if 'SESSION_ID' not in os.environ:
@@ -67,7 +66,7 @@ rule psst:
     shell:
         'mkdir -p {wildcards.sampleid} && cd {wildcards.sampleid} &&'
         'PATH=/home/ubuntu/daler/PSST:/home/ubuntu/bballew/ncbi-magicblast-1.2.0/bin/:$PATH '
-        'psst.sh -f {input.fastq} -n ../{input.rsids} -d . -e none@example.com -t {threads} -p {threads}'
+        'psst.sh -f {input.fastq} -n {input.rsids} -d . -e none@example.com -t {threads} -p {threads}'
 
 
 rule post_psst:
@@ -91,9 +90,8 @@ rule post_filter:
         rsids=os.path.join(TMPDIR, 'stripped_rs.list'),
     output: os.path.join(TMPDIR, 'output.txt')
     run:
-        df = pd.read_table(input[0], index_col=0).transpose()
-        ids = [i.strip() for i in open(input.rsids)]
-        found = list(df.index[df.sum(axis=1) > 0])
+        df = pd.read_csv(input[0], index_col=0).transpose()
+        found = list(df[df.sum(axis=1) > 0].index)
         with open(output[0], 'w') as fout:
             for i in found:
                 fout.write(i + '\n')
