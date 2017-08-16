@@ -52,7 +52,9 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='')
     parser.add_argument('-g', help='globalAFfolder')
     parser.add_argument('-l', help='localAFfolder')
+    parser.add_argument('--localglob', default='*.txt', help='basename glob for local')
+    parser.add_argument('--globalglob', default='*.rs', help='basename glob for global')
     args = parser.parse_args()
-    localAF = compileallAF(args.l, '*.rs', 'global')
-    globalAF = compileallAF(args.g, '*.txt', 'local')[['CALC_AF']]
+    localAF = compileallAF(args.l, '*.txt', 'local')
+    globalAF = compileallAF(args.g, '*.rs', 'global')[['CALC_AF']]
     print(calculate_deltD(globalAF, localAF))
