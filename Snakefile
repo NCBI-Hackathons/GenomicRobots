@@ -40,7 +40,7 @@ rule all:
 rule pre_filter_ids:
     input:
         rsids=SNPS_FILE
-    output: 'filtered_rsids.txt'
+    output: os.path.join(TMPDIR, 'filtered_rsids.txt')
     shell:
         'python filter_ids.py '
         '--ids {input} '
@@ -50,15 +50,15 @@ rule pre_filter_ids:
 
 # PSST uses IDs without the "rs", so we strip those here.
 rule strip_rs:
-    input: 'filtered_rsids.txt'
-    output: 'stripped_rs.list'
+    input: os.path.join(TMPDIR, 'filtered_rsids.txt')
+    output: os.path.join(TMPDIR, 'stripped_rs.list')
     shell:
         'sed "s/^rs//g" {input} > {output}'
 
 
 rule psst:
     input:
-        rsids='stripped_rs.list',
+        rsids=os.path.join(TMPDIR, 'stripped_rs.list'),
         fastq=lambda wildcards: SAMPLES[wildcards.sampleid]
     output:
         '{sampleid}/results.tsv'
@@ -73,7 +73,7 @@ rule psst:
 rule post_psst:
     input:
         samples_file=SAMPLES_FILE,
-        rsids='stripped_rs.list',
+        rsids=os.path.join(TMPDIR, 'stripped_rs.list'),
         psst=expand('{sampleid}/results.tsv', sampleid=sample_ids)
     output:
         out_matrix='{tmpdir}/feature_matrix.csv',
