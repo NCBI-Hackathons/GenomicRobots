@@ -1,0 +1,7 @@
+name: magicblast
+channels:
+  - bioconda
+  - conda-forge
+dependencies:
+  - python=2
+  - biopython
