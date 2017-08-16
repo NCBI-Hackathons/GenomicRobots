@@ -20,9 +20,9 @@
             <div class="row">
                 <div class="col-sm-12">
                         <div class="home_block">
-                          <form id="form1" method="POST" action="{{ url_for('.api_example') }}">
+                          <form id="form1" method="POST" action="{{ url_for('.api_analysis') }}">
 
-                          <input type="hidden" name="robot" value="example" id="robot1">
+                          <input type="hidden" name="robot" value="example" id="safe_snp_bot">
 
                             <div class="form-group">
                               <label for="input_data1">Input RS IDS:</label>
@@ -85,14 +85,75 @@ rs13281615
             </div>
         </div>
 
+
         <div class="tab-pane" id="example2">
             <div class="row">
                 <div class="col-sm-12">
-                Example form 2
+                        <div class="home_block">
+                          <form id="form2" method="POST" action="{{ url_for('.api_analysis') }}">
+
+                          <input type="hidden" name="robot" value="example" id="robot2">
+
+                            <div class="form-group">
+                              <label for="input_data2">Input RS IDS:</label>
+                                <textarea class="form-control input-xxlarge" rows="4" id="input_data2" name="input_data2">
+rs10419397
+rs10424198
+rs1042522
+rs1045642
+rs10505477
+rs1060915
+rs10804682
+rs10808556
+rs10895068
+rs11169571
+rs11571707
+rs11920625
+rs1219648
+rs12946397
+rs13091637
+rs13120400
+rs13281615
+                                </textarea>
+                            </div>
+
+                            <br>
+                            <button id="example2_button" type="submit" class="btn btn-warning">Run the bot!</button>
+                            <br>
+                          </form>
+
+                      </div>
+
+                      <br/>
+                      <div class="row">
+                          <div class="col-xs-12">
+                            <!-- <br> -->
+                            <div id="results2" style="display: none;">
+                                <table id="results2_table" class="table-no-bordered"
+
+                                       data-toggle="table"
+                                       data-pagination="true"
+                                       data-height="100%"
+                                       data-sort-name="score"
+                                       data-sort-order="desc"
+                                       >
+                                       <!-- class="table-condensed " -->
+                                       <!-- data-search="true" -->
+                                    <thead>
+                                    <tr>
+                                        <th data-field="rs" >RS ID</th>
+                                        <th data-field="status" data-sortable="true">STATUS</th>
+                                    </tr>
+                                    </thead>
+                                </table>                
+    
+                            </div>
+                          </div>
+                      </div>
+
                 </div>
             </div>
-        </div>
-
+        </div>        
 
         <div class="tab-pane" id="example3">
             <div class="row">
@@ -112,7 +173,7 @@ rs13281615
 {% block script %}
 <script>
 
-var url_api_example1 = "{{ url_for('.api_example') }}";
+var url_api_example1 = "{{ url_for('.api_analysis') }}";
 
 $(function() {
     $.ajaxSetup({ cache: false });
@@ -127,9 +188,31 @@ $(function() {
               robot: $("#robot1").val(),
               input_data: $("#input_data1").val(),
           }, function(json) {
-                $("#results1_table").bootstrapTable('load', json.response);
+                if (json.hasOwnProperty('error')) {
+                    
+                    alert(json.error);
 
-                $("#results1").show();
+                } else {
+                    $("#results1_table").bootstrapTable('load', json.response);
+
+                    $("#results1").show();                  
+                }
+          }, "json");
+    });
+
+    $("#form2").submit(function(event){
+        event.preventDefault();
+
+        $("#results2").hide();
+
+        $.post(
+          url_api_example1, {
+              robot: $("#robot2").val(),
+              input_data: $("#input_data2").val(),
+          }, function(json) {
+                $("#results2_table").bootstrapTable('load', json.response);
+
+                $("#results2").show();
           }, "json");
     });
 
