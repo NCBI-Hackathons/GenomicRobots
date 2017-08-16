@@ -69,6 +69,8 @@ sample_count = 0
 # read in all queried samples
 with open(results.psst_samples_in) as f:
     for line in csv.reader(f, delimiter="\t"):  # works for sra accession numbers; what about fastq?
+        if (len(line) == 0) or (line[0].startswith('#')):
+            continue
         psst_out = line[0] + "/results.tsv"
         check_file(psst_out)
         sample_count = sample_count + 1

@@ -75,7 +75,7 @@ rule post_psst:
         'python psst_to_matrix.py '
         '{input.rsids} '
         '{SAMPLES_FILE} '
-        '{input.psst} '
+        #'{input.psst} '
 
 
 rule answer:

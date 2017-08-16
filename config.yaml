@@ -10,3 +10,6 @@ samples_table: "samples.tsv"
 # Paths to tools that do not yet have a conda package
 magicblast_path: "/home/ubuntu/bballew/ncbi-magicblast-1.2.0/bin"
 psst_path: "/home/ubuntu/daler/PSST"
+
+env: "snakemake-robot"
+
