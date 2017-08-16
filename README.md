@@ -1,7 +1,7 @@
 # GenomicRobots
 ## Introduction:
 
-NGS datasets no longer only exist in a few centralized locations. Sharing genotypic data is hampered due to both the cumbersome analytic processes involved in analysing NGS datasets and lack of accessibility. This is a lightweight platform that allows reasearchers to conduct prelimianry analysis on despersive sets of NGS data.
+NGS datasets no longer only exist in a few centralized locations. Sharing genotypic data is hampered due to both the cumbersome analytic processes involved in analysing NGS datasets and lack of accessibility. This is a lightweight platform that allows reasearchers to conduct preliminary analysis on dispersive sets of NGS data.
 
 ## Goals:
 
