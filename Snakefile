@@ -2,7 +2,6 @@ import os
 import pandas as pd
 import yaml
 
-config.update(yaml.load(open('config.yaml')))
 SAMPLES_FILE = config['samples_table']
 
 if 'SESSION_ID' not in os.environ:
