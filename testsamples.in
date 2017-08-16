@@ -1,6 +1,4 @@
-HG00096	/home/ubuntu/data/1000_genomes_reads/HG00096/sequence_read/SRR077487_1.filt.fastq.gz
-HG00097	/home/ubuntu/data/1000_genomes_reads/HG00097/sequence_read/SRR765989_1.filt.fastq.gz
-#M01	/home/ubuntu/data/smallfqs/M01_AM_24M_F0_1.fastq.gz
-#M94	/home/ubuntu/data/smallfqs/M94_AM_04M_F10_6.fastq.gz
+HG00096	/home/ubuntu/data/1000_genomes_reads/HG00096/sequence_read/SRR077487_1.filt.1M.fastq
+HG00097	/home/ubuntu/data/1000_genomes_reads/HG00097/sequence_read/SRR765989_1.filt.1M.fastq
 
 
