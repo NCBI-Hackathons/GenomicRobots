@@ -32,6 +32,7 @@ def safe_snp_bot(rsids):
         sp.check_call(
             ['/home/ubuntu/snakemake-robot/bin/snakemake',
                 '-s', snakemake_file_name,
+                '-d', os.path.dirname(yaml_file_name),
                 '--configfile', yaml_file_name,
                 '--use-conda',
                 '-j', '4'], env=snake_env)
