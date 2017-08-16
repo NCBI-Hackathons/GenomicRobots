@@ -8,8 +8,8 @@ import copy
 
 
 def safe_snp_bot(rsids):
-    yaml_file = app.config['ROBOTS_CONFIG']
-    with open(yaml_file) as f:
+    yaml_file_name = app.config['ROBOTS_CONFIG']
+    with open(yaml_file_name) as f:
         robot_config = yaml.load(f)
 
     SESSION_ID = str(uuid.uuid4())
@@ -26,10 +26,15 @@ def safe_snp_bot(rsids):
             o.write("{}\n".format(rs))
 
     try:
-        snakemake_file_name = os.path.dirname(yaml_file) + '/Snakefile'
+        snakemake_file_name = os.path.dirname(yaml_file_name) + '/Snakefile'
         snake_env = copy.copy(os.environ)
         snake_env['SESSION_ID'] = SESSION_ID
-        sp.check_call(['/home/ubuntu/snakemake-robot/bin/snakemake', '-s', snakemake_file_name, '--use-conda', '-j', '4'], env=snake_env)
+        sp.check_call(
+            ['/home/ubuntu/snakemake-robot/bin/snakemake',
+                '-s', snakemake_file_name,
+                '--configfile', yaml_file_name,
+                '--use-conda',
+                '-j', '4'], env=snake_env)
     except sp.CalledProcessError:
         return
 
