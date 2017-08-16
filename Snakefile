@@ -53,9 +53,10 @@ rule psst:
     output:
         '{sampleid}/results.tsv'
     threads: 8
+    conda:  'py2env.yaml'
     shell:
         'mkdir -p {wildcards.sampleid} && cd {wildcards.sampleid} &&'
-        'PATH=/home/ubuntu/bballew/PSST:/home/ubuntu/bballew/ncbi-magicblast-1.2.0/bin/:$PATH '
+        'PATH=/home/ubuntu/daler/PSST:/home/ubuntu/bballew/ncbi-magicblast-1.2.0/bin/:$PATH '
         'psst.sh -f {input.fastq} -n ../{input.rsids} -d . -e none@example.com -t {threads} -p {threads}'
 
 rule post_psst:
