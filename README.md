@@ -41,6 +41,7 @@ The PSST (NCBI Hackathon; La 2017) pipeline is as follows:
 ## To run PSST:
 
 psst.sh -s <samples_list> -n <rsids_list> -d <.> -e <email> -t <n> -p <n>
+psst.sh -f </path/to/fastq.fa> -n <rsids_list> -d <.> -e <email> -t <n> -p <n>
 
 see https://github.com/NCBI-Hackathons/PSST for more details
 
