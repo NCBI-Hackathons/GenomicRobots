@@ -42,7 +42,10 @@ def safe_snp_bot(rsids):
     reported_rsids = []
     with open(os.path.join(dir_name, "output.txt")) as f:
         for line in f:
-            reported_rsids.append(line.strip())
+            line = line.strip()
+            if not line.startswith('rs'):
+                line = 'rs' + line
+            reported_rsids.append(line)
 
     results = []
     for rs in rsids:
