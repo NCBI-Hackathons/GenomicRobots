@@ -1,7 +1,7 @@
 # GenomicRobots
 ## Introduction:
 
-NGS datasets no longer only exist in a few centralized locations. Sharing genotypic data is hampered due to both the cumbersome analytic processes involved in analysing NGS datasets and lack of accessibility. This is a lightweight platform that allows researchers to conduct preliminary analysis on dispersive sets of NGS data.
+Technological advances in genomics research has led to an upsurge in acquisition of large-scale genomics datasets. Many datasets are not currently being available for public access and exists only in various institutional database due to the cumbersome analytic processes involved in analysing NGS datasets and concerns over breaching a patients' genetic privacy. This may hamper current efforts towards underpinning the genetic contributors of health and diseases. We report the development of SNPBOT, a lightweight platform that simplifies the process of secure retrieval genotypic information and offers efficient sharing between collaborators.
 
 ## Goals:
 
@@ -132,7 +132,7 @@ A simplistic web-based tool that simplifies extraction of genotypic information.
 
 # Conclusion:
 
-Our findings showed most institutions have databases through which de-identified genomic data can be shared but the issue of a simplistic workflow to retrieve and share genotypic information remains a major challenge. This web-based tool simplifies the process of retrieving genotypic information for sharing among institutions within the network.
+Our findings suggests most institutions have databases through which de-identified genomic data can be shared but the issue of a simplistic workflow to retrieve and share genotypic information remains a major challenge. This web-based tool simplifies the process of retrieving genotypic information for sharing among institutions within the network.
 # People
 
 Alexander Goncearenco: alexandr.goncearenco@nih.gov
