@@ -1,7 +1,7 @@
 # GenomicRobots
 ## Introduction:
 
-Many datasets are not currently being available for public access and exists only in various institutional database due to the cumbersome analytic processes involved in analysing NGS datasets and concerns over breaching a patients' genetic privacy. This may hamper current efforts towards underpinning the genetic contributors of health and diseases. We report the development of SNPBOT, a lightweight platform that simplifies the process of secure retrieval genotypic information and offers efficient sharing between collaborators.
+Many datasets are not currently being available for public access and exists only in various institutional database due to the cumbersome analytic processes involved in analysing NGS datasets and concerns over breaching a patients' genetic privacy. This may hamper current efforts towards underpinning the genetic contributors of health and diseases. We report the development of SNPBOT, a lightweight platform that simplifies the process of secure retrieval of genotypic information and offers efficient sharing between collaborators.
 
 ## Goals:
 
