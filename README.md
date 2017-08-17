@@ -1,11 +1,11 @@
 # GenomicRobots
 ## Introduction:
 
-Technological advances in genomics research has led to an upsurge in acquisition of large-scale genomics datasets. Many datasets are not currently being available for public access and exists only in various institutional database due to the cumbersome analytic processes involved in analysing NGS datasets and concerns over breaching a patients' genetic privacy. This may hamper current efforts towards underpinning the genetic contributors of health and diseases. We report the development of SNPBOT, a lightweight platform that simplifies the process of secure retrieval genotypic information and offers efficient sharing between collaborators.
+Many datasets are not currently being available for public access and exists only in various institutional database due to the cumbersome analytic processes involved in analysing NGS datasets and concerns over breaching a patients' genetic privacy. This may hamper current efforts towards underpinning the genetic contributors of health and diseases. We report the development of SNPBOT, a lightweight platform that simplifies the process of secure retrieval genotypic information and offers efficient sharing between collaborators.
 
 ## Goals:
 
-To build a a web-based tool that simplifies the process of retrieving patients genotypic information.
+To build a a web-based tool that simplifies the process of secure retrieval of patients genotypic information adn sharing between collaborators.
 
 ## Use cases
 
@@ -40,7 +40,7 @@ Need to share data
 
 Need to protect privacy
 
-Need for a simplistic workflow for retrieving genomic information.
+Need for a simplistic workflow for retrieving genotypic information.
 
 ## Question:
 
