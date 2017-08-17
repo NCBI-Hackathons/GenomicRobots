@@ -126,6 +126,18 @@ optional arguments:
   - feature_matrix.csv
   - maf_table.csv
 
+
+## To run Web application:
+
+Set up python environment (conda or virtualenv or both) using requirements.txt. 
+Edit config files connecting web application with Snakemake pipeline
+
+```
+python -m genomicrobots runserver -h 0.0.0.0
+```
+Open your web browser at port 5000.
+
+
 ## Anticipated results:
 
 A simplistic web-based tool that simplifies extraction of genotypic information.
