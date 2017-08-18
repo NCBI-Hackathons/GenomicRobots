@@ -5,7 +5,7 @@ Many datasets are not currently being available for public access and exists onl
 
 ## Goals:
 
-To build a a web-based tool that simplifies the process of secure retrieval of patients genotypic information adn sharing between collaborators.
+To build a web-based tool that simplifies the process of secure retrieval of patients genotypic information and sharing between collaborators.
 
 ## Use cases
 
